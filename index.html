@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+<meta charset="utf-8">
+<meta content="Strobe Light Generator" name="title">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Strobe Light Generator</title>
+</head>
+  
+<body>
+
+<button onclick=moreThunder()>Add Rain/Thunder</button>
+<button onclick=lessThunder()>Less Rain/Thunder</button>
+<button onclick=toggleControls()>Show Controls</button>
+   
+<div id="audio" style='display:none'></div>
+
+<script>
+
+var totalPlayers = 0;
+
+var show = function (elem) {
+	elem.style.display = 'block';
+};
+
+// Hide an element
+var hide = function (elem) {
+	elem.style.display = 'none';
+};
+
+// Toggle element visibility
+var toggle = function (elem) {
+
+	// If the element is visible, hide it
+	if (window.getComputedStyle(elem).display === 'block') {
+		hide(elem);
+		return;
+	}
+
+	// Otherwise, show it
+	show(elem);
+
+};
+
+function toggleControls(){
+    var a = document.getElementById("audio");
+    toggle(a);
+}
+
+function lessThunder(){
+    if (totalPlayers > 0){
+        var e = document.getElementById("audio-player"+totalPlayers);
+        e.remove();
+        totalPlayers--;
+    }
+}
+
+function moreThunder(){
+    totalPlayers++;
+    var a = document.getElementById("audio");
+    var sound      = document.createElement('audio');
+    sound.id       = 'audio-player' + totalPlayers;
+    sound.controls       = 'controls';
+    sound.loop     = 'loop';
+    sound.src      = '2523_1112-lq.mp3';
+    sound.type     = 'audio/mpeg';
+    
+    a.appendChild(sound);
+
+    setTimeout(function(){
+        sound.play();
+    },100);
+    
+    setTimeout(function(){
+        sound.currentTime = Math.floor(Math.random()*180);
+        sound.play();
+    },2000);
+};
+
+var bodyElement = document.querySelector("body");
+ 
+var requestAnimationFrame = window.requestAnimationFrame || 
+                            window.mozRequestAnimationFrame || 
+                            window.webkitRequestAnimationFrame || 
+                            window.msRequestAnimationFrame;
+ 
+var delay = 0;
+var delayLimit = 0;
+
+ 
+function changeColor() {
+    delay++;
+     
+    if (delay > delayLimit) {
+        bodyElement.style.backgroundColor = getRandomColor();
+        delay = 0;
+        delayLimit = Math.floor(Math.random()*8);
+    }
+ 
+    requestAnimationFrame(changeColor);
+}
+changeColor();           
+ 
+function getRandomColor() {
+    // creating a random number between 0 and 255
+    var r = Math.floor(Math.random()*256);
+    var g = r;
+    var b = r;
+    // var g = Math.floor(Math.random()*256);
+    // var b = Math.floor(Math.random()*256);
+     
+    // going from decimal to hex
+    var hexR = r.toString(16);
+    var hexG = g.toString(16);
+    var hexB = b.toString(16);
+     
+    // making sure single character values are prepended with a "0"
+    if (hexR.length == 1) {
+        hexR = "0" + hexR;
+    }
+     
+    if (hexG.length == 1) {
+        hexG = "0" + hexG;
+    }
+ 
+    if (hexB.length == 1) {
+        hexB = "0" + hexB;
+    }
+ 
+    // creating the hex value by concatenatening the string values
+    var hexColor = "#" + hexR + hexG + hexB;
+    return hexColor.toUpperCase();
+}
+</script>
+</body>
+</html>
