@@ -17,7 +17,6 @@
     <div id="audio" style='display:none'></div>
 
     <script>
-        var defaultThunders = 5;
         var totalPlayers = 0;
 
         var show = function (elem) {
@@ -85,9 +84,10 @@
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame;
 
+
         var delay = 0;
         var delayLimit = 0;
-
+        var delayRandom = 8;
 
         function changeColor() {
             delay++;
@@ -95,7 +95,7 @@
             if (delay > delayLimit) {
                 bodyElement.style.backgroundColor = getRandomColor();
                 delay = 0;
-                delayLimit = Math.floor(Math.random() * 8);
+                delayLimit = Math.floor(Math.random() * delayRandom);
             }
 
             requestAnimationFrame(changeColor);
@@ -131,11 +131,6 @@
             // creating the hex value by concatenatening the string values
             var hexColor = "#" + hexR + hexG + hexB;
             return hexColor.toUpperCase();
-        }
-
-
-        for (let index = 0; index < defaultThunders; index++) {
-            moreThunder()
         }
 
     </script>
